@@ -1,0 +1,17 @@
+[0m[[0minfo[0m] [0mPackaging /Users/edwardzhu/Documents/projects/chitose/target/scala-2.11/spark-test-project_2.11-1.0.jar ...[0m
+[0m[[0mdebug[0m] [0mInput file mappings:[0m
+[0m[[0mdebug[0m] [0m	SparkTest$HourlyWeather$.class[0m
+[0m[[0mdebug[0m] [0m	  /Users/edwardzhu/Documents/projects/chitose/target/scala-2.11/classes/SparkTest$HourlyWeather$.class[0m
+[0m[[0mdebug[0m] [0m	SparkTest$$typecreator2$1.class[0m
+[0m[[0mdebug[0m] [0m	  /Users/edwardzhu/Documents/projects/chitose/target/scala-2.11/classes/SparkTest$$typecreator2$1.class[0m
+[0m[[0mdebug[0m] [0m	SparkTest$HourlyWeather.class[0m
+[0m[[0mdebug[0m] [0m	  /Users/edwardzhu/Documents/projects/chitose/target/scala-2.11/classes/SparkTest$HourlyWeather.class[0m
+[0m[[0mdebug[0m] [0m	SparkTest.class[0m
+[0m[[0mdebug[0m] [0m	  /Users/edwardzhu/Documents/projects/chitose/target/scala-2.11/classes/SparkTest.class[0m
+[0m[[0mdebug[0m] [0m	SparkTest$$anonfun$1.class[0m
+[0m[[0mdebug[0m] [0m	  /Users/edwardzhu/Documents/projects/chitose/target/scala-2.11/classes/SparkTest$$anonfun$1.class[0m
+[0m[[0mdebug[0m] [0m	SparkTest$.class[0m
+[0m[[0mdebug[0m] [0m	  /Users/edwardzhu/Documents/projects/chitose/target/scala-2.11/classes/SparkTest$.class[0m
+[0m[[0mdebug[0m] [0m	SparkTest$$anonfun$2.class[0m
+[0m[[0mdebug[0m] [0m	  /Users/edwardzhu/Documents/projects/chitose/target/scala-2.11/classes/SparkTest$$anonfun$2.class[0m
+[0m[[0minfo[0m] [0mDone packaging.[0m
