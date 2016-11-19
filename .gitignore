@@ -1,10 +1,7 @@
 datasets/
 spark-warehouse/
 project/
-!target/
-target/*
-!target/scala-2.11
-target/scala-2.11/*
+target/
 !target/scala-2.11/*.jar
 *.class
 .idea/
