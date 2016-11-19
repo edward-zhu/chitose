@@ -1,7 +1,7 @@
 import org.apache.spark.sql.SparkSession
 
 // 20120101    0    26    0    16093    100    0    0
-object SparkTest {
+object GenerateWeatherDF {
 
   case class HourlyWeather(date: String, hour: Int, wind: Int, precip: Int, visibility: Int,
     temp: Int, snowDepth: Int, weatherType: Int)
@@ -14,7 +14,7 @@ object SparkTest {
 
     import spark.implicits._
 
-    var df = spark.sparkContext
+    val df = spark.sparkContext
       .textFile("datasets/weather.csv")
       .map(_.split("\t"))
       .map(attr => HourlyWeather(attr(0),
