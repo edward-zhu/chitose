@@ -13,12 +13,15 @@ object JoinDatasets {
 
     val weather = sql.sql("select * from weather")
     val collision = sql.sql("select date, hour, zipcode, count(*) as count, sum(kill) as kill, sum(wound) as wound from collision group by date, hour, zipcode")
-    val games = sql.sql("select * from games")
+    val games = sql.sql("select date, count as ngames from games")
+
+    collision.printSchema()
 
     val collision_weather = collision
       .join(weather, Seq("date", "hour"))
       .join(games, Seq("date"))
-      .withColumnRenamed("count", "ngames")
+
+    collision_weather.printSchema()
 
     collision_weather.write.parquet(PathFinder.getDatasetPath("collision_weather_games.parquet"))
 
