@@ -1,5 +1,5 @@
 import org.apache.spark.SparkContext
-import org.apache.spark.sql.SQLContext
+import org.apache.spark.sql.hive.HiveContext;
 import utils.PathFinder
 
 /**
@@ -8,7 +8,8 @@ import utils.PathFinder
 object JoinDatasets {
   def main(args: Array[String]): Unit = {
     val sc = SparkContext.getOrCreate()
-    val sql = SQLContext.getOrCreate(sc)
+    val sql = new HiveContext(sc);
+
 
     val weather = sql.sql("select * from weather")
     val collision = sql.sql("select datehour, count(*), sum(kill), sum(wound) from collision group by datehour, zipcode")
