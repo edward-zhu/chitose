@@ -12,7 +12,7 @@ object JoinDatasets {
 
 
     val weather = sql.sql("select * from weather")
-    val collision = sql.sql("select datehour, count(*), sum(kill), sum(wound) from collision group by datehour, zipcode")
+    val collision = sql.sql("select date, hour, zipcode, count(*) as count, sum(kill) as kill, sum(wound) as wound from collision group by datehour, zipcode")
     val games = sql.sql("select * from games")
 
     val collision_weather = collision
