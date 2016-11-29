@@ -13,59 +13,44 @@ import utils.PathFinder
   */
 object Analyse {
   def main(args: Array[String]): Unit = {
+    // Simplify Log printing
     val rootLogger = Logger.getRootLogger()
     rootLogger.setLevel(Level.ERROR)
 
     val sc = SparkContext.getOrCreate();
     val sql = new HiveContext(sc)
+
+    // Get data file
     val raw = sql.read.parquet(PathFinder.getDatasetPath("total.parquet"))
 
+    // convert all target value to double type
     val data = raw
       .withColumn("count", raw.col("count").cast(DoubleType))
       .withColumn("kill", raw.col("kill").cast(DoubleType))
       .withColumn("wound", raw.col("wound").cast(DoubleType))
 
-    /*
-    val bucketizer = new Bucketizer()
-      .setInputCol("count")
-      .setOutputCol("class")
-      .setSplits(Array(-0.1, 0.99, 1.99, 20))
-
-    val bucketed = bucketizer.transform(data)
-
-    val zero = bucketed.filter("count = 0.0")
-    val one = bucketed.filter("count = 1.0")
-    val more = bucketed.filter("count >= 2.0")
-
-    println("zero class: " + zero.count())
-    println("one class: " + one.count())
-    println("more class: " + more.count())
-
-    val sone = zero.sample(false, more.count().toDouble / zero.count().toDouble)
-    val stwo = one.sample(false, more.count().toDouble / one.count().toDouble)
-
-    val subsampledData = sone.unionAll(stwo).unionAll(more)
-
-    subsampledData.groupBy("class").count().show()
-    */
-
+    // convert string value to id in integer type
     val strIndexer = new StringIndexer()
       .setInputCol("boro")
       .setOutputCol("boroid")
       .fit(data)
 
-    // .setInputCols(Array("hour", "zipid", "temp", "precip", "visibility", "wtype", "wind", "ngames"))
-
+    // feature select and combine
     val featAssembler = new VectorAssembler()
-      .setInputCols(Array("hour", "boroid", "temp", "precip", "visibility", "wtype", "wind", "snowdepth", "ngames", "max_speed", "min_speed", "avg_speed", "month", "dayofweek"))
+      .setInputCols(Array("hour", "boroid",
+        "temp", "precip", "visibility", "wtype", "wind", "snowdepth",
+        "ngames",
+        "max_speed", "min_speed", "avg_speed",
+        "month", "dayofweek"))
       .setOutputCol("features")
 
-
-
+    // normalize feature to deviation to 1
     val scaler = new StandardScaler()
       .setInputCol("features")
       .setOutputCol("scaledFeatures")
+      .setWithMean(true) // set to true to make mean be 0
 
+    // automatically convert some feature to category type
     val vecIndexer = new VectorIndexer()
       .setInputCol("scaledFeatures")
       .setOutputCol("indexedFeatures")
@@ -78,11 +63,16 @@ object Analyse {
     */
 
     /*
+
+    // Random Forest Regression Model
+
     val rf = new RandomForestRegressor()
       .setFeaturesCol("normFeatures")
       .setLabelCol("count")
       .setNumTrees(100)
     */
+
+    // Gradient-Boosted Tree Regression Model
 
     val gbt = new GBTRegressor()
       .setFeaturesCol("indexedFeatures")
@@ -90,6 +80,8 @@ object Analyse {
       .setMaxIter(20)
 
     /*
+    // Linear Regression Model
+
     val lr = new LinearRegression()
       .setFeaturesCol("scaledFeatures")
       .setLabelCol("count")
