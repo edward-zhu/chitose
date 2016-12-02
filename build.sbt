@@ -1,4 +1,4 @@
-name := "Spark Test Project"
+name := "Project chitose"
 
 version := "1.0"
 

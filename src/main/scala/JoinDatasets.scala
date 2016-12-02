@@ -55,12 +55,12 @@ object JoinDatasets {
     // keys.take(10).map(println)
     collision_weather.take(10).map(println)
 
-    collision_weather.write.parquet(PathFinder.getDatasetPath("collision_weather_games.parquet"))
+    collision_weather.write.parquet(PathFinder.getPath("collision_weather_games.parquet"))
 
 
     val speed = sql.sql("select * from speed_boro")
     val total = collision_weather.join(speed, Seq("date", "hour", "boro"))
 
-    total.write.parquet(PathFinder.getDatasetPath("total.parquet"))
+    total.write.parquet(PathFinder.getPath("total.parquet"))
   }
 }

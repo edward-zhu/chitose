@@ -21,7 +21,7 @@ object Analyse {
     val sql = new HiveContext(sc)
 
     // Get data file
-    val raw = sql.read.parquet(PathFinder.getDatasetPath("total.parquet"))
+    val raw = sql.read.parquet(PathFinder.getPath("total.parquet"))
 
     // convert all target value to double type
     val data = raw
@@ -48,7 +48,7 @@ object Analyse {
     val scaler = new StandardScaler()
       .setInputCol("features")
       .setOutputCol("scaledFeatures")
-      .setWithMean(true) // set to true to make mean be 0
+      // .setWithMean(true) // set to true to make mean be 0
 
     // automatically convert some feature to category type
     val vecIndexer = new VectorIndexer()
@@ -62,15 +62,15 @@ object Analyse {
       .setOutputCol("normFeatures")
     */
 
-    /*
+
 
     // Random Forest Regression Model
 
     val rf = new RandomForestRegressor()
-      .setFeaturesCol("normFeatures")
+      .setFeaturesCol("indexedFeatures")
       .setLabelCol("count")
       .setNumTrees(100)
-    */
+
 
     // Gradient-Boosted Tree Regression Model
 
@@ -96,6 +96,9 @@ object Analyse {
     val Array(train, test) = data.randomSplit(Array(0.8, 0.2))
 
     val model = pipeline.fit(train)
+
+    // model.save(PathFinder.getPath("latest.model"))
+
     val predictions = model.transform(test)
 
     predictions.select("prediction", "count", "features").show(5)

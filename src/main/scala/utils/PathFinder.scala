@@ -8,7 +8,7 @@ import org.apache.spark.SparkContext
 object PathFinder {
   val sc: SparkContext = SparkContext.getOrCreate()
 
-  def getDatasetPath(filename: String): String = {
+  def getPath(filename: String): String = {
     val master = sc.master
     if (master.contains("local")) {
       "datasets/" + filename
