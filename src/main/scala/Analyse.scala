@@ -1,3 +1,4 @@
+import ml.dmlc.xgboost4j.scala.spark.XGBoostEstimator
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.SparkContext
 import org.apache.spark.ml.Pipeline
@@ -79,6 +80,22 @@ object Analyse {
       .setLabelCol("count")
       .setMaxIter(20)
 
+    val paramMap = List("eta" -> 0.023f,
+      "max_depth" -> 10,
+      "min_child_weight" -> 3.0,
+      "subsample" -> 1.0,
+      "colsample_bytree" -> 0.82,
+      "colsample_bylevel" -> 0.9,
+      "base_score" -> 0.005,
+      "eval_metric" -> "auc",
+      "seed" -> 49,
+      "silent" -> 1,
+      "objective" -> "count:poisson").toMap
+
+    val xgb = new XGBoostEstimator(paramMap)
+      .setFeaturesCol("indexedFeatures")
+      .setLabelCol("count")
+
     /*
     // Linear Regression Model
 
@@ -91,7 +108,7 @@ object Analyse {
     */
 
     val pipeline = new Pipeline()
-      .setStages(Array(strIndexer, featAssembler, scaler, vecIndexer, gbt))
+      .setStages(Array(strIndexer, featAssembler, scaler, vecIndexer, xgb))
 
     val Array(train, test) = data.randomSplit(Array(0.8, 0.2))
 

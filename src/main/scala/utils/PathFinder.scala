@@ -14,7 +14,7 @@ object PathFinder {
       "datasets/" + filename
     }
     else {
-      "project/" + filename
+      "gs://dataproc-f3a5e218-c9a9-4cf0-bc76-d83d685831b4-us/" + filename
     }
   }
 }
