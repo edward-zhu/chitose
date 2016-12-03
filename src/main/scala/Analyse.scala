@@ -118,6 +118,8 @@ object Analyse {
       .setMaxIter(20)
 
     val paramMap = List(
+      "num_round" -> 100,
+      "eval_metric" -> "rmse",
       "objective" -> "count:poisson").toMap
 
     val xgb = new XGBoostEstimator(paramMap)
@@ -127,7 +129,11 @@ object Analyse {
 
     val Array(train, test) = total.randomSplit(Array(0.8, 0.2))
 
-    xgb.train(train)
+    val model = xgb.train(train)
+
+    val predictions = model.transform(test)
+
+    evaluate(predictions)
 
   }
 }
