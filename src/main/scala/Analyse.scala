@@ -80,16 +80,7 @@ object Analyse {
       .setLabelCol("count")
       .setMaxIter(20)
 
-    val paramMap = List("eta" -> 0.023f,
-      "max_depth" -> 10,
-      "min_child_weight" -> 3.0,
-      "subsample" -> 1.0,
-      "colsample_bytree" -> 0.82,
-      "colsample_bylevel" -> 0.9,
-      "base_score" -> 0.005,
-      "eval_metric" -> "auc",
-      "seed" -> 49,
-      "silent" -> 1,
+    val paramMap = List(
       "objective" -> "count:poisson").toMap
 
     val xgb = new XGBoostEstimator(paramMap)
