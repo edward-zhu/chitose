@@ -1,11 +1,11 @@
-import ml.dmlc.xgboost4j.scala.spark.XGBoostEstimator
+import ml.dmlc.xgboost4j.scala.spark._
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.SparkContext
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.evaluation.{MulticlassClassificationEvaluator, RegressionEvaluator}
 import org.apache.spark.ml.feature._
 import org.apache.spark.ml.regression.{GBTRegressor, LinearRegression, RandomForestRegressor}
-import org.apache.spark.sql.hive.HiveContext
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types.DoubleType
 import utils.PathFinder
 
@@ -19,7 +19,7 @@ object Analyse {
     rootLogger.setLevel(Level.ERROR)
 
     val sc = SparkContext.getOrCreate();
-    val sql = new HiveContext(sc)
+    val sql = SparkSession.builder().getOrCreate();
 
     // Get data file
     val raw = sql.read.parquet(PathFinder.getPath("total.parquet"))
