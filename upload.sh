@@ -6,4 +6,4 @@ sbt package
 
 echo "uploading..."
 # upload jar file
-rsync -r target/ jz2653@dumbo:~/project/target/
+rsync -r target/scala* jz2653@dumbo:~/project/target/
